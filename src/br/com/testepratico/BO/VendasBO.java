@@ -68,11 +68,13 @@ public class VendasBO {
      *
      * @param dado
      * @param tipo
+     * @param dataInicial
+     * @param dataFinal
      * @return ArrayList
      */
-    public ArrayList preencherTabelaVendas(String dado, String tipo) {
+    public ArrayList preencherTabelaVendas(String dado, String tipo, String dataInicial, String dataFinal) {
         VendasDAO vDAO = new VendasDAO();
-        return vDAO.preencherTabelaVendas(dado, tipo);
+        return vDAO.preencherTabelaVendas(dado, tipo, dataInicial, dataFinal);
     }
 
     /**

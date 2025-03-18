@@ -255,13 +255,15 @@ public class Vendas extends javax.swing.JInternalFrame {
      *
      * @param dado
      * @param tipo
+     * @param dataInicial
+     * @param dataFinal
      */
     public void preencherTabelaVendas(String dado, String tipo, String dataInicial, String dataFinal) {
         VendasBO vBO = new VendasBO();
         ArrayList dados = new ArrayList();
         String[] colunas = new String[]{"CÓDIGO", "CÓDIGO CLIENTE", "CLIENTE", "TOTAL", "DATA COMPRA", "", ""};
 
-        dados = vBO.preencherTabelaVendas(dado, tipo);
+        dados = vBO.preencherTabelaVendas(dado, tipo, dataInicial, dataFinal);
         ModeloTabela modelo = new ModeloTabela(dados, colunas);
         DefaultTableCellRenderer centralizado = new DefaultTableCellRenderer();
         DefaultTableCellRenderer ladoDireito = new DefaultTableCellRenderer();
@@ -1573,6 +1575,8 @@ public class Vendas extends javax.swing.JInternalFrame {
         } finally {
             f.semFoco(lblBordaDataInicial, jPanelVisualizar);
         }
+        
+        preencherTabelaVendas(txtPesquisar.getText(), cmbPesquisarPor.getSelectedItem().toString(), txtDataInicial.getText(), txtDataFinal.getText());
     }//GEN-LAST:event_txtDataInicialMouseClicked
 
     private void txtDataFinalFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtDataFinalFocusGained
@@ -1598,6 +1602,8 @@ public class Vendas extends javax.swing.JInternalFrame {
         } finally {
             f.semFoco(lblBordaDataFinal, jPanelVisualizar);
         }
+        
+        preencherTabelaVendas(txtPesquisar.getText(), cmbPesquisarPor.getSelectedItem().toString(), txtDataInicial.getText(), txtDataFinal.getText());
     }//GEN-LAST:event_txtDataFinalMouseClicked
 
 

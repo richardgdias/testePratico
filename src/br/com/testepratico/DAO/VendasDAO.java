@@ -189,9 +189,11 @@ public class VendasDAO {
      *
      * @param dado
      * @param tipo
+     * @param dataInicial
+     * @param dataFinal
      * @return ArrayList
      */
-    public ArrayList preencherTabelaVendas(String dado, String tipo) {
+    public ArrayList preencherTabelaVendas(String dado, String tipo, String dataInicial, String dataFinal) {
         String sql = "";
         Conexao conexao = new Conexao();
         PreparedStatement pstmt = null;
@@ -204,28 +206,39 @@ public class VendasDAO {
             switch (tipo) {
                 case "CÓDIGO VENDA":
                     sql = "SELECT codigo, codigo_cliente, nome_cliente, valor_total, data_compra FROM vendas "
-                            + "WHERE codigo::text LIKE '" + dado + "%' ORDER BY codigo";
+                            + "WHERE codigo::text LIKE '" + dado + "%' "
+                            + "AND data_compra BETWEEN '" + dataInicial + "' AND '" + dataFinal + "'"
+                            + "ORDER BY codigo";
                     break;
                 case "CÓDIGO PRODUTO":
                     sql = "SELECT DISTINCT v.codigo, v.codigo_cliente, v.nome_cliente, v.valor_total, v.data_compra FROM vendas v "
                             + "INNER JOIN produtos_venda pv ON pv.codigo_venda = v.codigo "
-                            + "WHERE codigo_produto::text LIKE '" + dado + "%' ORDER BY codigo";
+                            + "WHERE codigo_produto::text LIKE '" + dado + "%' "
+                            + "AND v.data_compra BETWEEN '" + dataInicial + "' AND '" + dataFinal + "'"
+                            + "ORDER BY codigo";
                     break;
                 case "CÓDIGO CLIENTE":
                     sql = "SELECT DISTINCT codigo, codigo_cliente, nome_cliente, valor_total, data_compra FROM vendas "
-                            + "WHERE codigo_cliente::text LIKE '" + dado + "%' ORDER BY codigo";
+                            + "WHERE codigo_cliente::text LIKE '" + dado + "%' "
+                            + "AND data_compra BETWEEN '" + dataInicial + "' AND '" + dataFinal + "'"
+                            + "ORDER BY codigo";
                     break;
                 case "DESCRIÇÃO PRODUTO":
                     sql = "SELECT DISTINCT v.codigo, v.codigo_cliente, v.nome_cliente, v.valor_total, v.data_compra FROM vendas v "
                             + "INNER JOIN produtos_venda pv ON pv.codigo_venda = v.codigo "
-                            + "WHERE pv.descricao_produto LIKE '" + dado + "%' ORDER BY codigo";
+                            + "WHERE pv.descricao_produto LIKE '" + dado + "%' "
+                            + "AND v.data_compra BETWEEN '" + dataInicial + "' AND '" + dataFinal + "'"
+                            + "ORDER BY codigo";
                     break;
                 case "NOME CLIENTE":
                     sql = "SELECT DISTINCT codigo, codigo_cliente, nome_cliente, valor_total, data_compra FROM vendas "
-                            + "WHERE nome_cliente LIKE '" + dado + "%' ORDER BY codigo";
+                            + "WHERE nome_cliente LIKE '" + dado + "%' "
+                            + "AND data_compra BETWEEN '" + dataInicial + "' AND '" + dataFinal + "'"
+                            + "ORDER BY codigo";
                     break;
                 case "TODAS":
-                    sql = "SELECT codigo, codigo_cliente, nome_cliente, valor_total, data_compra FROM vendas";
+                    sql = "SELECT codigo, codigo_cliente, nome_cliente, valor_total, data_compra FROM vendas "
+                            + "WHERE data_compra BETWEEN '" + dataInicial + "' AND '" + dataFinal + "'";
                     break;
             }
 
