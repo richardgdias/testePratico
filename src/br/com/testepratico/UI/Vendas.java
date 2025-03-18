@@ -81,10 +81,17 @@ public class Vendas extends javax.swing.JInternalFrame {
         tabelaProdutosVendaManipular.setShowGrid(false);
         tabelaProdutosVendaManipular.setShowVerticalLines(false);
 
+        String dataAtual = f.pegarDataString();
+        int mes = Integer.parseInt(dataAtual.substring(3, 5));
+        String diaUm = f.pegarPrimeiroDiaMes(mes - 1);
+
+        txtDataInicial.setText(diaUm);
+        txtDataFinal.setText(dataAtual);
+
         definirNewCmb();
         definirTeclas();
         preencherCmb();
-        preencherTabelaVendas("", "TODAS");
+        preencherTabelaVendas("", "TODAS", txtDataInicial.getText(), txtDataFinal.getText());
         preencherTabelaProdutosVisualizar("0");
         preencherTabelaProdutosManipular();
         calcularTotalProdutosManipulados();
@@ -122,7 +129,7 @@ public class Vendas extends javax.swing.JInternalFrame {
                 f.semFoco(lblBordaNomeCliente, jPanelManipular);
             }
         });
-        
+
         cmbNomeCliente.getEditor().getEditorComponent().addKeyListener(new KeyAdapter() {
             @Override
             public void keyPressed(KeyEvent evt) {
@@ -144,7 +151,7 @@ public class Vendas extends javax.swing.JInternalFrame {
                 f.semFoco(lblBordaDescricaoProduto, jPanelManipular);
             }
         });
-        
+
         cmbDescricaoProduto.getEditor().getEditorComponent().addKeyListener(new KeyAdapter() {
             @Override
             public void keyPressed(KeyEvent evt) {
@@ -249,7 +256,7 @@ public class Vendas extends javax.swing.JInternalFrame {
      * @param dado
      * @param tipo
      */
-    public void preencherTabelaVendas(String dado, String tipo) {
+    public void preencherTabelaVendas(String dado, String tipo, String dataInicial, String dataFinal) {
         VendasBO vBO = new VendasBO();
         ArrayList dados = new ArrayList();
         String[] colunas = new String[]{"CÓDIGO", "CÓDIGO CLIENTE", "CLIENTE", "TOTAL", "DATA COMPRA", "", ""};
@@ -510,7 +517,7 @@ public class Vendas extends javax.swing.JInternalFrame {
                     CardLayout card = (CardLayout) jPanelCard.getLayout();
                     card.show(jPanelCard, "visualizar");
 
-                    preencherTabelaVendas("", "TODAS");
+                    preencherTabelaVendas("", "TODAS", txtDataInicial.getText(), txtDataFinal.getText());
                     preencherTabelaProdutosVisualizar("0");
                     cmbPesquisarPor.requestFocus();
                     cmbPesquisarPor.setSelectedItem("TODAS");
@@ -551,13 +558,13 @@ public class Vendas extends javax.swing.JInternalFrame {
         LocalDate dataAnterior = dataCompleta.minusMonths(1);
 
         /**
-         * verifica se a data de fechamento do cliente já passou nesse mes
-         * se já passou, adiciona + 1 mês na data
+         * verifica se a data de fechamento do cliente já passou nesse mes se já
+         * passou, adiciona + 1 mês na data
          */
         boolean jaPassou = dataCompleta.isBefore(dataAtual)
                 && dataCompleta.getMonthValue() == dataAtual.getMonthValue()
                 && dataCompleta.getYear() == dataAtual.getYear();
-        
+
         if (jaPassou) {
             proximaDataCompra = dataCompleta.plusMonths(1);
         } else {
@@ -609,7 +616,7 @@ public class Vendas extends javax.swing.JInternalFrame {
             boolean retorno = vBO.excluirVenda(codigoVenda);
 
             if (retorno) {
-                preencherTabelaVendas("", "TODAS");
+                preencherTabelaVendas("", "TODAS", txtDataInicial.getText(), txtDataFinal.getText());
                 preencherTabelaProdutosVisualizar("0");
             } else {
                 f.aviso("ERRO AO TENTAR EXCLUIR VENDA");
@@ -624,7 +631,7 @@ public class Vendas extends javax.swing.JInternalFrame {
     public void cancelar() {
         CardLayout card = (CardLayout) jPanelCard.getLayout();
         card.show(jPanelCard, "visualizar");
-        preencherTabelaVendas("", "TODAS");
+        preencherTabelaVendas("", "TODAS", txtDataInicial.getText(), txtDataFinal.getText());
         preencherTabelaProdutosVisualizar("0");
         cmbPesquisarPor.requestFocus();
         cmbPesquisarPor.setSelectedItem("TODAS");
@@ -788,6 +795,12 @@ public class Vendas extends javax.swing.JInternalFrame {
         lblBordaTabelaClientes1 = new javax.swing.JLabel();
         lblProdutosVenda = new javax.swing.JLabel();
         lblBordaProdutosVenda = new javax.swing.JLabel();
+        lblDataInicial = new javax.swing.JLabel();
+        txtDataInicial = new javax.swing.JFormattedTextField();
+        lblBordaDataInicial = new javax.swing.JLabel();
+        lblDataFinal = new javax.swing.JLabel();
+        txtDataFinal = new javax.swing.JFormattedTextField();
+        lblBordaDataFinal = new javax.swing.JLabel();
         jPanelManipular = new javax.swing.JPanel();
         lblNomeCliente = new javax.swing.JLabel();
         cmbNomeCliente = new javax.swing.JComboBox<>();
@@ -879,13 +892,13 @@ public class Vendas extends javax.swing.JInternalFrame {
                 txtPesquisarKeyReleased(evt);
             }
         });
-        jPanelVisualizar.add(txtPesquisar, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 19, 400, 18));
+        jPanelVisualizar.add(txtPesquisar, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 19, 225, 18));
 
         lblBordaPesquisar.setBackground(new java.awt.Color(255, 255, 255));
         lblBordaPesquisar.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         lblBordaPesquisar.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(204, 204, 204), 2, true));
         lblBordaPesquisar.setOpaque(true);
-        jPanelVisualizar.add(lblBordaPesquisar, new org.netbeans.lib.awtextra.AbsoluteConstraints(185, 0, 410, 40));
+        jPanelVisualizar.add(lblBordaPesquisar, new org.netbeans.lib.awtextra.AbsoluteConstraints(185, 0, 235, 40));
 
         btnNovo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/br/com/testepratico/Resources/novo.png"))); // NOI18N
         btnNovo.setBorder(null);
@@ -980,6 +993,74 @@ public class Vendas extends javax.swing.JInternalFrame {
         lblBordaProdutosVenda.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         lblBordaProdutosVenda.setIcon(new javax.swing.ImageIcon(getClass().getResource("/br/com/testepratico/Resources/abaConferencia.png"))); // NOI18N
         jPanelVisualizar.add(lblBordaProdutosVenda, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 320, 245, 32));
+
+        lblDataInicial.setBackground(new java.awt.Color(255, 255, 255));
+        lblDataInicial.setFont(new java.awt.Font("Open Sans Semibold", 0, 11)); // NOI18N
+        lblDataInicial.setForeground(new java.awt.Color(158, 158, 158));
+        lblDataInicial.setText("Data Inicial");
+        lblDataInicial.setOpaque(true);
+        jPanelVisualizar.add(lblDataInicial, new org.netbeans.lib.awtextra.AbsoluteConstraints(435, 3, 80, 15));
+
+        txtDataInicial.setBorder(null);
+        try {
+            txtDataInicial.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.MaskFormatter("##/##/####")));
+        } catch (java.text.ParseException ex) {
+            ex.printStackTrace();
+        }
+        txtDataInicial.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                txtDataInicialFocusGained(evt);
+            }
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                txtDataInicialFocusLost(evt);
+            }
+        });
+        txtDataInicial.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                txtDataInicialMouseClicked(evt);
+            }
+        });
+        jPanelVisualizar.add(txtDataInicial, new org.netbeans.lib.awtextra.AbsoluteConstraints(435, 19, 100, 18));
+
+        lblBordaDataInicial.setBackground(new java.awt.Color(255, 255, 255));
+        lblBordaDataInicial.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lblBordaDataInicial.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(204, 204, 204), 2, true));
+        lblBordaDataInicial.setOpaque(true);
+        jPanelVisualizar.add(lblBordaDataInicial, new org.netbeans.lib.awtextra.AbsoluteConstraints(430, 0, 110, 40));
+
+        lblDataFinal.setBackground(new java.awt.Color(255, 255, 255));
+        lblDataFinal.setFont(new java.awt.Font("Open Sans Semibold", 0, 11)); // NOI18N
+        lblDataFinal.setForeground(new java.awt.Color(158, 158, 158));
+        lblDataFinal.setText("Data Final");
+        lblDataFinal.setOpaque(true);
+        jPanelVisualizar.add(lblDataFinal, new org.netbeans.lib.awtextra.AbsoluteConstraints(555, 3, 80, 15));
+
+        txtDataFinal.setBorder(null);
+        try {
+            txtDataFinal.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.MaskFormatter("##/##/####")));
+        } catch (java.text.ParseException ex) {
+            ex.printStackTrace();
+        }
+        txtDataFinal.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                txtDataFinalFocusGained(evt);
+            }
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                txtDataFinalFocusLost(evt);
+            }
+        });
+        txtDataFinal.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                txtDataFinalMouseClicked(evt);
+            }
+        });
+        jPanelVisualizar.add(txtDataFinal, new org.netbeans.lib.awtextra.AbsoluteConstraints(555, 19, 100, 18));
+
+        lblBordaDataFinal.setBackground(new java.awt.Color(255, 255, 255));
+        lblBordaDataFinal.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lblBordaDataFinal.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(204, 204, 204), 2, true));
+        lblBordaDataFinal.setOpaque(true);
+        jPanelVisualizar.add(lblBordaDataFinal, new org.netbeans.lib.awtextra.AbsoluteConstraints(550, 0, 110, 40));
 
         jPanelCard.add(jPanelVisualizar, "visualizar");
 
@@ -1320,7 +1401,7 @@ public class Vendas extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_btnNovoActionPerformed
 
     private void txtPesquisarKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtPesquisarKeyReleased
-        preencherTabelaVendas(txtPesquisar.getText(), cmbPesquisarPor.getSelectedItem().toString());
+        preencherTabelaVendas(txtPesquisar.getText(), cmbPesquisarPor.getSelectedItem().toString(), txtDataInicial.getText(), txtDataFinal.getText());
     }//GEN-LAST:event_txtPesquisarKeyReleased
 
     private void txtPesquisarFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtPesquisarFocusGained
@@ -1469,6 +1550,56 @@ public class Vendas extends javax.swing.JInternalFrame {
         preencherTabelaProdutosVisualizar(String.valueOf(codigoVenda));
     }//GEN-LAST:event_tabelaVendasMouseClicked
 
+    private void txtDataInicialFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtDataInicialFocusGained
+        f.comFoco(lblBordaDataInicial, jPanelVisualizar);
+    }//GEN-LAST:event_txtDataInicialFocusGained
+
+    private void txtDataInicialFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtDataInicialFocusLost
+        f.semFoco(lblBordaDataInicial, jPanelVisualizar);
+    }//GEN-LAST:event_txtDataInicialFocusLost
+
+    private void txtDataInicialMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_txtDataInicialMouseClicked
+        f.comFoco(lblBordaDataInicial, jPanelVisualizar);
+
+        Calendario c = new Calendario(null, true);
+        LocalDate hoje = LocalDate.now();
+
+        try {
+            c.dataInicial = txtDataInicial.getText();
+            c.setVisible(true);
+            txtDataInicial.setText(c.getData());
+        } catch (NullPointerException ex) {
+            txtDataInicial.setText(f.DataEmString(hoje.toString()));
+        } finally {
+            f.semFoco(lblBordaDataInicial, jPanelVisualizar);
+        }
+    }//GEN-LAST:event_txtDataInicialMouseClicked
+
+    private void txtDataFinalFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtDataFinalFocusGained
+        f.comFoco(lblBordaDataFinal, jPanelVisualizar);
+    }//GEN-LAST:event_txtDataFinalFocusGained
+
+    private void txtDataFinalFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtDataFinalFocusLost
+        f.semFoco(lblBordaDataFinal, jPanelVisualizar);
+    }//GEN-LAST:event_txtDataFinalFocusLost
+
+    private void txtDataFinalMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_txtDataFinalMouseClicked
+        f.comFoco(lblBordaDataFinal, jPanelVisualizar);
+
+        Calendario c = new Calendario(null, true);
+        LocalDate hoje = LocalDate.now();
+
+        try {
+            c.dataInicial = txtDataFinal.getText();
+            c.setVisible(true);
+            txtDataFinal.setText(c.getData());
+        } catch (NullPointerException ex) {
+            txtDataFinal.setText(f.DataEmString(hoje.toString()));
+        } finally {
+            f.semFoco(lblBordaDataFinal, jPanelVisualizar);
+        }
+    }//GEN-LAST:event_txtDataFinalMouseClicked
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnCancelar;
@@ -1487,6 +1618,8 @@ public class Vendas extends javax.swing.JInternalFrame {
     private javax.swing.JLabel lblBordaCodigoCliente;
     private javax.swing.JLabel lblBordaCodigoProduto;
     private javax.swing.JLabel lblBordaCodigoVenda;
+    private javax.swing.JLabel lblBordaDataFinal;
+    private javax.swing.JLabel lblBordaDataInicial;
     private javax.swing.JLabel lblBordaDescricaoProduto;
     private javax.swing.JLabel lblBordaNomeCliente;
     private javax.swing.JLabel lblBordaPesquisar;
@@ -1504,6 +1637,8 @@ public class Vendas extends javax.swing.JInternalFrame {
     private javax.swing.JLabel lblCodigoCliente;
     private javax.swing.JLabel lblCodigoProduto;
     private javax.swing.JLabel lblCodigoVenda;
+    private javax.swing.JLabel lblDataFinal;
+    private javax.swing.JLabel lblDataInicial;
     private javax.swing.JLabel lblDescricaoProduto;
     private javax.swing.JLabel lblNomeCliente;
     private javax.swing.JLabel lblPesquisar;
@@ -1521,6 +1656,8 @@ public class Vendas extends javax.swing.JInternalFrame {
     private javax.swing.JFormattedTextField txtCodigoCliente;
     private javax.swing.JFormattedTextField txtCodigoProduto;
     private javax.swing.JFormattedTextField txtCodigoVenda;
+    private javax.swing.JFormattedTextField txtDataFinal;
+    private javax.swing.JFormattedTextField txtDataInicial;
     private javax.swing.JTextField txtPesquisar;
     private javax.swing.JFormattedTextField txtQuantidade;
     private javax.swing.JFormattedTextField txtValor;

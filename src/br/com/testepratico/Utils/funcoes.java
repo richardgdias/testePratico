@@ -17,6 +17,7 @@ import java.awt.event.FocusEvent;
 import java.awt.event.KeyEvent;
 import java.math.BigDecimal;
 import java.text.DecimalFormat;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.HashSet;
 import java.util.logging.Level;
@@ -307,6 +308,17 @@ public class funcoes {
                 ((JFormattedTextField) component).setDocument(new UpperCaseDocument());
             }
         }
+    }
+    
+    public String pegarPrimeiroDiaMes(int mes) {
+        Calendar cal = Calendar.getInstance();
+        String data;
+
+        cal.set(Calendar.MONTH, mes);
+        cal.set(Calendar.DAY_OF_MONTH, cal.getActualMinimum(Calendar.DAY_OF_MONTH));
+        data = new SimpleDateFormat("dd/MM/yyyy").format(cal.getTime());
+
+        return data;
     }
 
 }
