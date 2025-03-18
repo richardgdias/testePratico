@@ -487,6 +487,11 @@ public class Produtos extends javax.swing.JInternalFrame {
                 txtDescricaoProdutoFocusLost(evt);
             }
         });
+        txtDescricaoProduto.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                txtDescricaoProdutoKeyPressed(evt);
+            }
+        });
         jPanelManipular.add(txtDescricaoProduto, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 19, 560, 18));
 
         lblBordaDescricaoProduto.setBackground(new java.awt.Color(255, 255, 255));
@@ -687,6 +692,12 @@ public class Produtos extends javax.swing.JInternalFrame {
     private void txtDescricaoProdutoFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtDescricaoProdutoFocusLost
         f.semFoco(lblBordaDescricaoProduto, jPanelManipular);
     }//GEN-LAST:event_txtDescricaoProdutoFocusLost
+
+    private void txtDescricaoProdutoKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtDescricaoProdutoKeyPressed
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
+            txtValorProduto.requestFocus();
+        }
+    }//GEN-LAST:event_txtDescricaoProdutoKeyPressed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

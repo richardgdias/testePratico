@@ -502,6 +502,11 @@ public class Clientes extends javax.swing.JInternalFrame {
                 txtNomeClienteFocusLost(evt);
             }
         });
+        txtNomeCliente.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                txtNomeClienteKeyPressed(evt);
+            }
+        });
         jPanelManipular.add(txtNomeCliente, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 19, 670, 18));
 
         lblBordaNomeCliente.setBackground(new java.awt.Color(255, 255, 255));
@@ -761,6 +766,12 @@ public class Clientes extends javax.swing.JInternalFrame {
     private void txtNomeClienteFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtNomeClienteFocusLost
         f.semFoco(lblBordaNomeCliente, jPanelManipular);
     }//GEN-LAST:event_txtNomeClienteFocusLost
+
+    private void txtNomeClienteKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtNomeClienteKeyPressed
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
+            txtLimiteCompra.requestFocus();
+        }
+    }//GEN-LAST:event_txtNomeClienteKeyPressed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

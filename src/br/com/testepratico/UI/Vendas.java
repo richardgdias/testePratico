@@ -17,7 +17,10 @@ import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.FocusAdapter;
 import java.awt.event.FocusEvent;
+import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import static java.awt.event.KeyEvent.VK_ENTER;
+import static java.awt.event.KeyEvent.VK_TAB;
 import java.time.LocalDate;
 import java.time.Month;
 import java.util.ArrayList;
@@ -119,6 +122,15 @@ public class Vendas extends javax.swing.JInternalFrame {
                 f.semFoco(lblBordaNomeCliente, jPanelManipular);
             }
         });
+        
+        cmbNomeCliente.getEditor().getEditorComponent().addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyPressed(KeyEvent evt) {
+                if (evt.getKeyCode() == VK_ENTER || evt.getKeyCode() == VK_TAB) {
+                    txtCodigoProduto.requestFocus();
+                }
+            }
+        });
 
         cmbDescricaoProduto.setBorder(BorderFactory.createLineBorder(Color.WHITE));
         cmbDescricaoProduto.getEditor().getEditorComponent().addFocusListener(new FocusAdapter() {
@@ -130,6 +142,15 @@ public class Vendas extends javax.swing.JInternalFrame {
             @Override
             public void focusLost(FocusEvent e) {
                 f.semFoco(lblBordaDescricaoProduto, jPanelManipular);
+            }
+        });
+        
+        cmbDescricaoProduto.getEditor().getEditorComponent().addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyPressed(KeyEvent evt) {
+                if (evt.getKeyCode() == VK_ENTER || evt.getKeyCode() == VK_TAB) {
+                    txtQuantidade.requestFocus();
+                }
             }
         });
     }
