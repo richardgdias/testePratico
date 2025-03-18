@@ -155,7 +155,7 @@ public class Clientes extends javax.swing.JInternalFrame {
     public void preencherTabelaClientes(String dado, String tipo) {
         ClientesBO cBO = new ClientesBO();
         ArrayList dados = new ArrayList();
-        String[] colunas = new String[]{"CÓDIGO", "NOME", "", ""};
+        String[] colunas = new String[]{"CÓDIGO", "NOME", "LIMITE COMPRA", "DIA FECHAMENTO", "", ""};
 
         dados = cBO.preencherTabelaClientes(dado, tipo);
         ModeloTabela modelo = new ModeloTabela(dados, colunas);
@@ -168,17 +168,25 @@ public class Clientes extends javax.swing.JInternalFrame {
         tabelaClientes.setModel(modelo);
 
         //CODIGO
-        tabelaClientes.getColumnModel().getColumn(0).setPreferredWidth(50);
+        tabelaClientes.getColumnModel().getColumn(0).setPreferredWidth(100);
         tabelaClientes.getColumnModel().getColumn(0).setCellRenderer(centralizado);
 
         //NOME CLIENTE
         tabelaClientes.getColumnModel().getColumn(1).setPreferredWidth(600);
+        
+        //LIMITE COMPRA
+        tabelaClientes.getColumnModel().getColumn(2).setPreferredWidth(130);
+        tabelaClientes.getColumnModel().getColumn(2).setCellRenderer(centralizado);
+        
+        //DIA FECHAMENTO DA FATURA
+        tabelaClientes.getColumnModel().getColumn(3).setPreferredWidth(150);
+        tabelaClientes.getColumnModel().getColumn(3).setCellRenderer(centralizado);
 
         //EDITAR
-        tabelaClientes.getColumnModel().getColumn(2).setPreferredWidth(25);
+        tabelaClientes.getColumnModel().getColumn(4).setPreferredWidth(25);
 
         //EXCLUIR
-        tabelaClientes.getColumnModel().getColumn(3).setPreferredWidth(25);
+        tabelaClientes.getColumnModel().getColumn(5).setPreferredWidth(25);
 
         tabelaClientes.getTableHeader().setReorderingAllowed(false);
         tabelaClientes.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
@@ -190,8 +198,8 @@ public class Clientes extends javax.swing.JInternalFrame {
         ImageIcon imagem2 = new javax.swing.ImageIcon(getClass().getResource("/br/com/testepratico/resources/seta-Des-devolver.png"));
         JTableRenderer renderer = new JTableRenderer(imagem);
         JTableRenderer renderer2 = new JTableRenderer(imagem2);
-        tabelaClientes.getColumnModel().getColumn(2).setCellRenderer(renderer2);
-        tabelaClientes.getColumnModel().getColumn(3).setCellRenderer(renderer);
+        tabelaClientes.getColumnModel().getColumn(4).setCellRenderer(renderer2);
+        tabelaClientes.getColumnModel().getColumn(5).setCellRenderer(renderer);
     }
 
     /**
@@ -719,10 +727,10 @@ public class Clientes extends javax.swing.JInternalFrame {
         int codigoCliente = Integer.parseInt(tabelaClientes.getValueAt(linha, 0).toString());
 
         switch (tabelaClientes.getSelectedColumn()) {
-            case 2:
+            case 4:
                 alterarCliente(codigoCliente);
                 break;
-            case 3:
+            case 5:
                 excluirCliente(codigoCliente);
                 break;
         }

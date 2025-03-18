@@ -6,6 +6,7 @@ package br.com.testepratico.DAO;
 
 import br.com.testepratico.DTO.ClientesDTO;
 import br.com.testepratico.Utils.Conexao;
+import br.com.testepratico.Utils.funcoes;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -130,21 +131,22 @@ public class ClientesDAO {
         PreparedStatement pstmt = null;
         ResultSet rs = null;
         ArrayList dados = new ArrayList();
+        funcoes f = new funcoes();
 
         try {
             conexao.abrir();
 
             switch (tipo) {
                 case "CÓDIGO":
-                    sql = "SELECT codigo, nome FROM clientes "
+                    sql = "SELECT codigo, nome, limite_compra, dia_fechamento_fatura FROM clientes "
                             + "WHERE codigo::text LIKE '" + dado + "%' ORDER BY codigo";
                     break;
                 case "NOME":
-                    sql = "SELECT codigo, nome FROM clientes "
+                    sql = "SELECT codigo, nome, limite_compra, dia_fechamento_fatura FROM clientes "
                             + "WHERE nome LIKE '" + dado + "%' ORDER BY nome";
                     break;
                 case "TODOS":
-                    sql = "SELECT codigo, nome FROM clientes";
+                    sql = "SELECT codigo, nome, limite_compra, dia_fechamento_fatura FROM clientes";
                     break;
             }
 
@@ -156,6 +158,8 @@ public class ClientesDAO {
                     dados.add(new Object[]{
                         rs.getInt("codigo"),
                         rs.getString("nome"),
+                        f.convMoeda(String.valueOf(rs.getDouble("limite_compra"))),
+                        rs.getInt("dia_fechamento_fatura"),
                         "",
                         ""
                     });
