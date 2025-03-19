@@ -6,7 +6,6 @@ package Vendas;
 
 import Utils.ConexaoTest;
 import Utils.LimparBanco;
-import br.com.testepratico.BO.ProdutosBO;
 import br.com.testepratico.BO.VendasBO;
 import br.com.testepratico.DTO.ClientesDTO;
 import br.com.testepratico.DTO.ProdutosDTO;
@@ -128,9 +127,11 @@ public class Vendas_Test {
         VendasBO vBO = new VendasBO();
         String dado = "";
         String tipo = "TODAS";
+        String dataInicial = "2025-03-01";
+        String dataFinal = "2025-03-18";
 
         /* ========== Execução ========== */
-        ArrayList result = vBO.preencherTabelaVendas(dado, tipo);
+        ArrayList result = vBO.preencherTabelaVendas(dado, tipo, dataInicial, dataFinal);
         /* ========== Verificação ========== */
         assertNotNull(result);
     }
